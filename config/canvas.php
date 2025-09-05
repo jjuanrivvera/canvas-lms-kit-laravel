@@ -42,15 +42,15 @@ return [
             | This determines which credentials are used for API calls.
             |
             */
-            
+
             'auth_mode'   => env('CANVAS_AUTH_MODE', 'api_key'), // 'api_key' or 'oauth'
-            
+
             /*
             |--------------------------------------------------------------
             | API Key Authentication
             |--------------------------------------------------------------
             */
-            
+
             'api_key'     => env('CANVAS_API_KEY'),
             'base_url'    => env('CANVAS_BASE_URL', 'https://canvas.instructure.com'),
             'account_id'  => env('CANVAS_ACCOUNT_ID', 1),
