@@ -103,6 +103,38 @@ class CanvasServiceProvider extends ServiceProvider
         if (isset($config['middleware']) && is_array($config['middleware'])) {
             Config::setMiddleware($config['middleware']);
         }
+
+        // Configure authentication based on auth_mode
+        $authMode = $config['auth_mode'] ?? 'api_key';
+        
+        if ($authMode === 'oauth') {
+            // Set OAuth credentials if using OAuth mode
+            if (isset($config['oauth_client_id']) && $config['oauth_client_id'] !== '') {
+                Config::setOAuthClientId($config['oauth_client_id']);
+            }
+
+            if (isset($config['oauth_client_secret']) && $config['oauth_client_secret'] !== '') {
+                Config::setOAuthClientSecret($config['oauth_client_secret']);
+            }
+
+            if (isset($config['oauth_redirect_uri']) && $config['oauth_redirect_uri'] !== '') {
+                Config::setOAuthRedirectUri($config['oauth_redirect_uri']);
+            }
+
+            if (isset($config['oauth_token']) && $config['oauth_token'] !== '') {
+                Config::setOAuthToken($config['oauth_token']);
+            }
+
+            if (isset($config['oauth_refresh_token']) && $config['oauth_refresh_token'] !== '') {
+                Config::setOAuthRefreshToken($config['oauth_refresh_token']);
+            }
+            
+            // Switch to OAuth mode
+            Config::useOAuth();
+        } else {
+            // Ensure API key mode is active (default)
+            Config::useApiKey();
+        }
     }
 
     /**

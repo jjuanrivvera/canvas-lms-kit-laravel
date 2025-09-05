@@ -33,12 +33,46 @@ return [
     'connections' => [
 
         'main' => [
+            /*
+            |--------------------------------------------------------------
+            | Authentication Mode
+            |--------------------------------------------------------------
+            |
+            | Choose between 'api_key' or 'oauth' authentication.
+            | This determines which credentials are used for API calls.
+            |
+            */
+            
+            'auth_mode'   => env('CANVAS_AUTH_MODE', 'api_key'), // 'api_key' or 'oauth'
+            
+            /*
+            |--------------------------------------------------------------
+            | API Key Authentication
+            |--------------------------------------------------------------
+            */
+            
             'api_key'     => env('CANVAS_API_KEY'),
             'base_url'    => env('CANVAS_BASE_URL', 'https://canvas.instructure.com'),
             'account_id'  => env('CANVAS_ACCOUNT_ID', 1),
             'timeout'     => env('CANVAS_TIMEOUT', 30),
             'api_version' => env('CANVAS_API_VERSION', 'v1'),
             'log_channel' => env('CANVAS_LOG_CHANNEL'),
+
+            /*
+            |--------------------------------------------------------------
+            | OAuth 2.0 Configuration
+            |--------------------------------------------------------------
+            |
+            | Required when auth_mode is set to 'oauth'.
+            | These settings enable OAuth 2.0 authentication flow.
+            |
+            */
+
+            'oauth_client_id'     => env('CANVAS_OAUTH_CLIENT_ID'),
+            'oauth_client_secret' => env('CANVAS_OAUTH_CLIENT_SECRET'),
+            'oauth_redirect_uri'  => env('CANVAS_OAUTH_REDIRECT_URI'),
+            'oauth_token'         => env('CANVAS_OAUTH_TOKEN'),
+            'oauth_refresh_token' => env('CANVAS_OAUTH_REFRESH_TOKEN'),
 
             /*
             |--------------------------------------------------------------

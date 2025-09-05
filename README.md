@@ -50,7 +50,7 @@ use CanvasLMS\Api\Courses\Course;
 use CanvasLMS\Api\Users\User;
 
 // That's it! The package auto-configures everything
-$courses = Course::fetchAll();
+$courses = Course::get();
 $user = User::find(123);
 ```
 
@@ -84,7 +84,7 @@ class CourseController
 {
     public function index() 
     {
-        return Course::fetchAll(); // Already configured!
+        return Course::get(); // Already configured!
     }
 }
 ```
@@ -101,7 +101,7 @@ use CanvasLMS\Api\Enrollments\Enrollment;
 use CanvasLMS\Api\Assignments\Assignment;
 
 // Get all courses
-$courses = Course::fetchAll();
+$courses = Course::get();
 
 // Get a specific course
 $course = Course::find(123);
@@ -126,7 +126,7 @@ use CanvasLMS\Laravel\Facades\Canvas;
 
 // Switch to a different Canvas instance
 Canvas::connection('school_b');
-$courses = Course::fetchAll(); // From school_b
+$courses = Course::get(); // From school_b
 
 // Temporarily use a different connection
 Canvas::usingConnection('school_c', function () {
@@ -171,7 +171,7 @@ test('creates a course in canvas', function () {
     ]);
     
     // Act
-    $courses = Course::fetchAll();
+    $courses = Course::get();
     
     // Assert
     expect($courses)->toHaveCount(1);
@@ -188,11 +188,11 @@ If you prefer facades, you can use the Canvas facade:
 use CanvasLMS\Laravel\Facades\Canvas;
 
 // These are equivalent:
-Course::fetchAll();                    // Direct SDK usage
-Canvas::courses()::fetchAll();         // Via facade
+Course::get();                    // Direct SDK usage
+Canvas::courses()::get();         // Via facade
 
 // The facade is most useful for connection management:
-Canvas::connection('tenant_2')->courses()::fetchAll();
+Canvas::connection('tenant_2')->courses()::get();
 ```
 
 ## 🔧 Configuration
@@ -207,11 +207,22 @@ return [
     // Multiple Canvas connections
     'connections' => [
         'main' => [
+            // Authentication mode: 'api_key' or 'oauth'
+            'auth_mode' => env('CANVAS_AUTH_MODE', 'api_key'),
+            
+            // API Key authentication (when auth_mode = 'api_key')
             'api_key' => env('CANVAS_API_KEY'),
             'base_url' => env('CANVAS_BASE_URL'),
             'account_id' => env('CANVAS_ACCOUNT_ID', 1),
             'timeout' => env('CANVAS_TIMEOUT', 30),
             'log_channel' => env('CANVAS_LOG_CHANNEL'),
+            
+            // OAuth 2.0 authentication (when auth_mode = 'oauth')
+            'oauth_client_id' => env('CANVAS_OAUTH_CLIENT_ID'),
+            'oauth_client_secret' => env('CANVAS_OAUTH_CLIENT_SECRET'),
+            'oauth_redirect_uri' => env('CANVAS_OAUTH_REDIRECT_URI'),
+            'oauth_token' => env('CANVAS_OAUTH_TOKEN'),
+            'oauth_refresh_token' => env('CANVAS_OAUTH_REFRESH_TOKEN'),
             
             // Optional middleware configuration
             'middleware' => [
@@ -231,6 +242,50 @@ return [
         'fake' => env('CANVAS_FAKE', false),
     ],
 ];
+```
+
+## 🔐 Authentication Methods
+
+### API Key Authentication (Default)
+
+The simplest authentication method using Canvas API tokens:
+
+```env
+CANVAS_AUTH_MODE=api_key  # or omit - api_key is default
+CANVAS_API_KEY=your-canvas-api-token
+```
+
+### OAuth 2.0 Authentication
+
+For OAuth-based authentication, switch the auth mode and configure OAuth settings:
+
+```env
+CANVAS_AUTH_MODE=oauth
+CANVAS_OAUTH_CLIENT_ID=your-client-id
+CANVAS_OAUTH_CLIENT_SECRET=your-client-secret
+CANVAS_OAUTH_REDIRECT_URI=https://yourapp.com/canvas/callback
+CANVAS_OAUTH_TOKEN=current-access-token
+CANVAS_OAUTH_REFRESH_TOKEN=refresh-token
+```
+
+### User Masquerading (Runtime Only)
+
+Administrators can make API calls as another user (requires appropriate permissions):
+
+```php
+use CanvasLMS\Config;
+
+// Masquerade as a specific user for all subsequent calls
+Config::asUser(12345);
+
+// Make API calls as that user
+$courses = Course::get(); // Returns courses visible to user 12345
+
+// Stop masquerading
+Config::stopMasquerading();
+
+// Now calls are made as the authenticated user again
+$courses = Course::get();
 ```
 
 ## 🎨 Artisan Commands
@@ -341,7 +396,7 @@ class TenantCourseService
     {
         return Canvas::connection($tenant)
             ->courses()
-            ::fetchAll(['per_page' => 100]);
+            ::get(['per_page' => 100]);
     }
     
     public function syncCourseAcrossTenants(int $courseId, array $tenants): void
@@ -362,20 +417,59 @@ class TenantCourseService
 
 ## 📚 Available Canvas APIs
 
-This package provides auto-configuration for all Canvas LMS Kit APIs:
+This package provides auto-configuration for all Canvas LMS Kit APIs. Use them directly:
 
-- **Accounts** - Manage Canvas accounts
-- **Assignments** - Create and manage assignments
-- **Courses** - Full course CRUD operations
-- **Enrollments** - Enroll users in courses
-- **Files** - Upload and manage files
-- **Groups** - Manage course groups
-- **Modules** - Create course modules and items
-- **Pages** - Wiki pages management
-- **Quizzes** - Create and manage quizzes
-- **Sections** - Course sections
-- **Users** - User management
-- **And 30+ more APIs...**
+### Core Resources
+- `CanvasLMS\Api\Courses\Course` - Course management
+- `CanvasLMS\Api\Users\User` - User management  
+- `CanvasLMS\Api\Accounts\Account` - Account administration
+
+### Course Components
+- `CanvasLMS\Api\Enrollments\Enrollment` - User enrollments
+- `CanvasLMS\Api\Assignments\Assignment` - Assignments and submissions
+- `CanvasLMS\Api\Modules\Module` - Course modules and items
+- `CanvasLMS\Api\Pages\Page` - Wiki pages
+- `CanvasLMS\Api\Sections\Section` - Course sections
+- `CanvasLMS\Api\Tabs\Tab` - Course navigation tabs
+- `CanvasLMS\Api\Announcements\Announcement` - Course announcements
+
+### Discussions & Communication
+- `CanvasLMS\Api\DiscussionTopics\DiscussionTopic` - Discussion forums
+- `CanvasLMS\Api\Conversations\Conversation` - Internal messaging
+- `CanvasLMS\Api\Conferences\Conference` - Web conferences
+
+### Files & Media
+- `CanvasLMS\Api\Files\File` - File uploads and management
+- `CanvasLMS\Api\MediaObjects\MediaObject` - Media/video content
+
+### Grading & Assessment  
+- `CanvasLMS\Api\Quizzes\Quiz` - Quiz creation and management
+- `CanvasLMS\Api\QuizSubmissions\QuizSubmission` - Quiz attempts
+- `CanvasLMS\Api\Submissions\Submission` - Assignment submissions
+- `CanvasLMS\Api\SubmissionComments\SubmissionComment` - Submission feedback
+- `CanvasLMS\Api\Rubrics\Rubric` - Grading rubrics
+- `CanvasLMS\Api\GradebookHistory\GradebookHistory` - Grade audit trail
+
+### Groups & Collaboration
+- `CanvasLMS\Api\Groups\Group` - Student groups
+- `CanvasLMS\Api\GroupCategories\GroupCategory` - Group sets
+
+### Outcomes & Standards
+- `CanvasLMS\Api\Outcomes\Outcome` - Learning outcomes
+- `CanvasLMS\Api\OutcomeGroups\OutcomeGroup` - Outcome organization
+- `CanvasLMS\Api\OutcomeResults\OutcomeResult` - Outcome assessments
+- `CanvasLMS\Api\OutcomeImports\OutcomeImport` - Bulk outcome imports
+
+### Calendar & Scheduling
+- `CanvasLMS\Api\CalendarEvents\CalendarEvent` - Calendar entries
+- `CanvasLMS\Api\AppointmentGroups\AppointmentGroup` - Office hours/appointments
+
+### Admin & Configuration
+- `CanvasLMS\Api\Admins\Admin` - Account administrators
+- `CanvasLMS\Api\FeatureFlags\FeatureFlag` - Feature toggles
+- `CanvasLMS\Api\ExternalTools\ExternalTool` - LTI integrations
+- `CanvasLMS\Api\ContentMigrations\ContentMigration` - Course copy/import
+- `CanvasLMS\Api\Progress\Progress` - Long-running job status
 
 See the [Canvas LMS Kit documentation](https://github.com/jjuanrivvera/canvas-lms-kit) for complete API reference.
 
