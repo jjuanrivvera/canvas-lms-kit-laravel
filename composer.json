@@ -1,0 +1,89 @@
+{
+    "name": "jjuanrivvera/canvas-lms-kit-laravel",
+    "description": "Laravel integration for Canvas LMS Kit - Auto-configuration, multi-tenancy, and testing utilities",
+    "keywords": [
+        "canvas",
+        "canvas-lms",
+        "laravel",
+        "lms",
+        "education",
+        "api",
+        "sdk"
+    ],
+    "homepage": "https://github.com/jjuanrivvera/canvas-lms-kit-laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Juan Rivera",
+            "email": "jjuanrivvera@gmail.com",
+            "homepage": "https://github.com/jjuanrivvera",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "jjuanrivvera/canvas-lms-kit": "^1.4",
+        "illuminate/support": "^9.0|^10.0|^11.0",
+        "illuminate/console": "^9.0|^10.0|^11.0",
+        "illuminate/config": "^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-mock": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "laravel/pint": "^1.0",
+        "symfony/var-dumper": "^6.0|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CanvasLMS\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CanvasLMS\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CanvasLMS\\Laravel\\CanvasServiceProvider"
+            ],
+            "aliases": {
+                "Canvas": "CanvasLMS\\Laravel\\Facades\\Canvas"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "test-parallel": "vendor/bin/pest --parallel",
+        "test-arch": "vendor/bin/pest --filter arch",
+        "format": "vendor/bin/pint",
+        "format-check": "vendor/bin/pint --test",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "check": [
+            "@format-check",
+            "@analyse",
+            "@test"
+        ],
+        "fix": [
+            "@format",
+            "@test"
+        ]
+    }
+}

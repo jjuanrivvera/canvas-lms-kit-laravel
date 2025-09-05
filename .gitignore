@@ -1,0 +1,80 @@
+# Composer
+/vendor/
+composer.lock
+
+# PHP
+*.cache
+*.log
+
+# Testing
+.phpunit.cache
+.phpunit.result.cache
+phpunit.xml
+.pest/
+/coverage/
+/build/
+*.coverage
+coverage.xml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.project
+.settings/
+nbproject/
+.buildpath
+
+# Laravel
+.env
+.env.backup
+.env.production
+
+# Node (if ever needed)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Static Analysis
+.phpstan/
+phpstan-baseline.neon
+
+# Code Style
+.php-cs-fixer.cache
+.php-cs-fixer.php
+.pint.cache
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backups
+*.bak
+*.backup
+*.old
+*.orig
+*.tmp
+
+# Package build
+*.phar
+
+# Documentation build
+/docs/_build/
+/docs/.build/
+
+# Temporary files
+/tmp/
+/temp/
+*.temp
+
+# AI Assistant Instructions
+CLAUDE.md

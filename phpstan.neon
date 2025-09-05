@@ -1,0 +1,24 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+    level: 8
+    
+    paths:
+        - src
+        
+    excludePaths:
+        - src/Testing/CanvasFake.php # Mock implementations can have looser types
+        
+    reportUnmatchedIgnoredErrors: true
+    treatPhpDocTypesAsCertain: false
+    
+    ignoreErrors:
+        # These API classes might not exist yet in the SDK
+        - '#Class CanvasLMS\\Api\\Folders\\Folder not found#'
+        - '#Class CanvasLMS\\Api\\Roles\\Role not found#'
+        - '#Class CanvasLMS\\Api\\Analytics\\Analytics not found#'
+        
+    scanFiles:
+        - vendor/jjuanrivvera/canvas-lms-kit/src/Config.php
+        - vendor/jjuanrivvera/canvas-lms-kit/src/Api/AbstractBaseApi.php
