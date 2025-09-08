@@ -2,6 +2,7 @@
 
 use CanvasLMS\Config;
 use CanvasLMS\Laravel\CanvasManager;
+use CanvasLMS\Laravel\Contracts\CanvasManagerInterface;
 use CanvasLMS\Laravel\Facades\Canvas;
 use Illuminate\Support\Facades\Artisan;
 
@@ -43,6 +44,26 @@ test('publishes configuration file', function () {
 test('canvas facade works correctly', function () {
     expect(Canvas::getConnection())->toBe('testing');
     expect(Canvas::getAvailableConnections())->toContain('testing', 'secondary');
+});
+
+test('service provider binds interface to implementation', function () {
+    $manager = app(CanvasManagerInterface::class);
+
+    expect($manager)->toBeInstanceOf(CanvasManager::class);
+    expect($manager)->toBeInstanceOf(CanvasManagerInterface::class);
+});
+
+test('interface and concrete class resolve to same singleton instance', function () {
+    $concreteManager = app(CanvasManager::class);
+    $interfaceManager = app(CanvasManagerInterface::class);
+
+    // Both should be instances of CanvasManager
+    expect($concreteManager)->toBeInstanceOf(CanvasManager::class);
+    expect($interfaceManager)->toBeInstanceOf(CanvasManager::class);
+
+    // Interface should resolve to the same singleton instance
+    expect($interfaceManager)->toBe($concreteManager)
+        ->and($interfaceManager->getConnection())->toBe($concreteManager->getConnection());
 });
 
 test('artisan command is registered', function () {
