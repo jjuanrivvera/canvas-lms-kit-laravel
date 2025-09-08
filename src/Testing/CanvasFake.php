@@ -4,6 +4,7 @@ namespace CanvasLMS\Laravel\Testing;
 
 use CanvasLMS\Api\AbstractBaseApi;
 use CanvasLMS\Interfaces\HttpClientInterface;
+use Carbon\Carbon;
 use Mockery;
 use PHPUnit\Framework\Assert;
 
@@ -183,7 +184,7 @@ class CanvasFake
             'method'    => $method,
             'endpoint'  => $endpoint,
             'data'      => $data,
-            'timestamp' => now(),
+            'timestamp' => Carbon::now(),
         ];
     }
 

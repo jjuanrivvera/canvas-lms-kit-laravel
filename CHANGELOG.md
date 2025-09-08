@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Methods like `discussionTopics()`, `mediaObjects()`, `quizSubmissions()` now work correctly
   - Case-insensitive method resolution now properly handles all case variations
   - Maintains full backward compatibility with existing snake_case methods
+- **BUG**: Fixed undefined `now()` helper function error in CanvasFake testing utilities
+  - Replaced `now()` with explicit `Carbon::now()` import to prevent "Call to undefined function" errors
+  - Ensures reliable timestamp recording in all Laravel testing environments
+  - Added comprehensive test coverage to prevent regression
+  - Maintains full backward compatibility with existing timestamp functionality
 
 ## [0.1.0] - 2025-01-05
 
