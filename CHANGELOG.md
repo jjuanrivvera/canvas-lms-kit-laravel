@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **CRITICAL**: Fixed camelCase method resolution in CanvasManager that was causing BadMethodCallException for 32 API endpoints
+  - Methods like `discussionTopics()`, `mediaObjects()`, `quizSubmissions()` now work correctly
+  - Case-insensitive method resolution now properly handles all case variations
+  - Maintains full backward compatibility with existing snake_case methods
+
 ## [0.1.0] - 2025-01-05
 
 ### Added

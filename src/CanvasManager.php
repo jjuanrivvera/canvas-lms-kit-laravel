@@ -28,6 +28,13 @@ class CanvasManager
     protected string $currentConnection;
 
     /**
+     * Cached lowercase version of the class map for performance.
+     *
+     * @var array<string, class-string>|null
+     */
+    private static ?array $lowercaseClassMap = null;
+
+    /**
      * Create a new Canvas Manager instance.
      *
      * @param array<string, mixed> $config
@@ -195,22 +202,13 @@ class CanvasManager
     }
 
     /**
-     * Dynamically proxy method calls to Canvas LMS Kit API classes.
+     * Get the API class map.
      *
-     * This allows for syntax like:
-     * - Canvas::courses() to access Course API
-     * - Canvas::users() to access User API
-     * - Canvas::enrollments() to access Enrollment API
-     *
-     * @param array<mixed> $parameters
-     *
-     * @throws \BadMethodCallException
-     *
-     * @return mixed
+     * @return array<string, class-string>
      */
-    public function __call(string $method, array $parameters)
+    private function getClassMap(): array
     {
-        $classMap = [
+        return [
             // Core Resources
             'courses'              => \CanvasLMS\Api\Courses\Course::class,
             'course'               => \CanvasLMS\Api\Courses\Course::class,
@@ -326,7 +324,40 @@ class CanvasManager
             'content_migration'    => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
             'progress'             => \CanvasLMS\Api\Progress\Progress::class,
         ];
+    }
 
+    /**
+     * Get the lowercase version of the class map with caching for performance.
+     *
+     * @return array<string, class-string>
+     */
+    private function getLowercaseClassMap(): array
+    {
+        // Cache the lowercase class map after first use to avoid repeated array_change_key_case calls
+        if (self::$lowercaseClassMap === null) {
+            self::$lowercaseClassMap = array_change_key_case($this->getClassMap(), CASE_LOWER);
+        }
+
+        return self::$lowercaseClassMap;
+    }
+
+    /**
+     * Dynamically proxy method calls to Canvas LMS Kit API classes.
+     *
+     * This allows for syntax like:
+     * - Canvas::courses() to access Course API
+     * - Canvas::users() to access User API
+     * - Canvas::enrollments() to access Enrollment API
+     *
+     * @param array<mixed> $parameters
+     *
+     * @throws \BadMethodCallException
+     *
+     * @return mixed
+     */
+    public function __call(string $method, array $parameters)
+    {
+        $classMap = $this->getLowercaseClassMap();
         $methodLower = strtolower($method);
 
         if (isset($classMap[$methodLower])) {
