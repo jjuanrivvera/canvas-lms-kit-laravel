@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **NEW**: Added `CanvasManagerInterface` for better abstraction and testability
+  - Created interface in `src/Contracts/CanvasManagerInterface.php` with all connection management methods
+  - Updated `CanvasManager` to implement the interface for improved SOLID principles
+  - Enhanced service provider to bind interface to implementation for dependency injection
+  - Added comprehensive test coverage for interface implementation and mocking capabilities
+  - Enables easier unit testing with mock objects and dependency injection patterns
+  - Maintains full backward compatibility with no breaking changes
+
 ### Changed
 - **Refactored**: Extracted duplicated configuration logic into `ConfiguresCanvas` trait
   - Eliminated code duplication between `CanvasServiceProvider` and `CanvasManager`

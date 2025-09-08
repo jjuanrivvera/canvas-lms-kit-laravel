@@ -3,6 +3,7 @@
 namespace CanvasLMS\Laravel;
 
 use CanvasLMS\Laravel\Concerns\ConfiguresCanvas;
+use CanvasLMS\Laravel\Contracts\CanvasManagerInterface;
 use InvalidArgumentException;
 
 /**
@@ -12,7 +13,7 @@ use InvalidArgumentException;
  * in multi-tenant applications or when working with multiple Canvas
  * environments (production, sandbox, etc.).
  */
-class CanvasManager
+class CanvasManager implements CanvasManagerInterface
 {
     use ConfiguresCanvas;
     /**

@@ -4,6 +4,7 @@ namespace CanvasLMS\Laravel;
 
 use CanvasLMS\Laravel\Commands\TestConnectionCommand;
 use CanvasLMS\Laravel\Concerns\ConfiguresCanvas;
+use CanvasLMS\Laravel\Contracts\CanvasManagerInterface;
 use Illuminate\Support\ServiceProvider;
 
 class CanvasServiceProvider extends ServiceProvider
@@ -24,6 +25,11 @@ class CanvasServiceProvider extends ServiceProvider
         // Register the CanvasManager as a singleton
         $this->app->singleton(CanvasManager::class, function ($app) {
             return new CanvasManager($app['config']['canvas']);
+        });
+
+        // Bind the interface to the same singleton implementation
+        $this->app->bind(CanvasManagerInterface::class, function ($app) {
+            return $app->make(CanvasManager::class);
         });
 
         // Register the CanvasManager as 'canvas' for facade access
@@ -76,6 +82,7 @@ class CanvasServiceProvider extends ServiceProvider
     {
         return [
             CanvasManager::class,
+            CanvasManagerInterface::class,
             'canvas',
         ];
     }
