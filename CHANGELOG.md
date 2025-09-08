@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Refactored**: Extracted duplicated configuration logic into `ConfiguresCanvas` trait
+  - Eliminated code duplication between `CanvasServiceProvider` and `CanvasManager`
+  - Reduced configuration methods from 153+ lines to centralized trait implementation
+  - Improved maintainability with single source of truth for Canvas LMS Kit configuration
+  - Added comprehensive test coverage for configuration logic
+  - Maintains full backward compatibility with no breaking changes
+
 ### Fixed
 - **CRITICAL**: Fixed camelCase method resolution in CanvasManager that was causing BadMethodCallException for 32 API endpoints
   - Methods like `discussionTopics()`, `mediaObjects()`, `quizSubmissions()` now work correctly
