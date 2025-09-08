@@ -141,11 +141,14 @@ class CanvasFake
             ->andReturnUsing(function ($endpoint, $filePath, $params = []) {
                 $this->recordCall('POST_FILE', $endpoint, ['file' => $filePath, 'params' => $params]);
 
+                // Check if file exists and is readable to prevent warnings
+                $fileExists = file_exists($filePath) && is_readable($filePath);
+
                 return [
                     'id'           => rand(1000, 9999),
                     'filename'     => basename($filePath),
-                    'size'         => filesize($filePath) ?: 0,
-                    'content_type' => mime_content_type($filePath) ?: 'application/octet-stream',
+                    'size'         => $fileExists ? (filesize($filePath) ?: 0) : 1024,
+                    'content_type' => $fileExists ? (mime_content_type($filePath) ?: 'application/octet-stream') : 'application/octet-stream',
                 ];
             });
     }
@@ -316,5 +319,15 @@ class CanvasFake
     public function clearRecordedCalls(): void
     {
         $this->recorded = [];
+    }
+
+    /**
+     * Get the mock HTTP client for testing purposes.
+     *
+     * @return HttpClientInterface|\Mockery\MockInterface|null
+     */
+    public function getMockClient()
+    {
+        return $this->mockClient;
     }
 }

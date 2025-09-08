@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Ensures reliable timestamp recording in all Laravel testing environments
   - Added comprehensive test coverage to prevent regression
   - Maintains full backward compatibility with existing timestamp functionality
+- **BUG**: Fixed CanvasFake file function error handling for non-existent files
+  - Added file existence and readability checks before calling `filesize()` and `mime_content_type()`
+  - Prevents warnings and errors when mocking file uploads with non-existent file paths
+  - Uses sensible defaults (1024 bytes, 'application/octet-stream') for missing files
+  - Maintains real file information when files exist for backward compatibility
+  - Added comprehensive test coverage for all file handling scenarios
 
 ## [0.1.0] - 2025-01-05
 
