@@ -46,7 +46,10 @@
     "autoload-dev": {
         "psr-4": {
             "CanvasLMS\\Laravel\\Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "ide-helper.php"
+        ]
     },
     "extra": {
         "laravel": {

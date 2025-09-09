@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Canvas Facade for Laravel.
  *
+ * @mixin \CanvasLMS\Laravel\CanvasManager
+ *
  * NOTE: Direct SDK usage is recommended over this facade for cleaner, more testable code.
  *
  * @deprecated Use direct SDK classes instead (e.g., Course::fetchAll() instead of Canvas::courses()::fetchAll())
