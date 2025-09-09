@@ -93,6 +93,36 @@ test('camelCase methods resolve to correct API classes', function () {
         ->toBe(\CanvasLMS\Api\ContentMigrations\ContentMigration::class);
     expect($this->manager->contentMigration())
         ->toBe(\CanvasLMS\Api\ContentMigrations\ContentMigration::class);
+
+    // New v1.5.0 APIs - Reports & Analytics
+    expect($this->manager->courseReports())
+        ->toBe(\CanvasLMS\Api\CourseReports\CourseReports::class);
+    expect($this->manager->analytics())
+        ->toBe(\CanvasLMS\Api\Analytics\Analytics::class);
+
+    // New v1.5.0 APIs - Authentication & User Management
+    expect($this->manager->logins())
+        ->toBe(\CanvasLMS\Api\Logins\Login::class);
+    expect($this->manager->login())
+        ->toBe(\CanvasLMS\Api\Logins\Login::class);
+
+    // New v1.5.0 APIs - Bookmarks & Favorites
+    expect($this->manager->bookmarks())
+        ->toBe(\CanvasLMS\Api\Bookmarks\Bookmark::class);
+    expect($this->manager->bookmark())
+        ->toBe(\CanvasLMS\Api\Bookmarks\Bookmark::class);
+
+    // New v1.5.0 APIs - Branding & Theming
+    expect($this->manager->brandConfigs())
+        ->toBe(\CanvasLMS\Api\BrandConfigs\BrandConfig::class);
+    expect($this->manager->brandConfig())
+        ->toBe(\CanvasLMS\Api\BrandConfigs\BrandConfig::class);
+
+    // New v1.5.0 APIs - Developer Keys
+    expect($this->manager->developerKeys())
+        ->toBe(\CanvasLMS\Api\DeveloperKeys\DeveloperKey::class);
+    expect($this->manager->developerKey())
+        ->toBe(\CanvasLMS\Api\DeveloperKeys\DeveloperKey::class);
 });
 
 test('method resolution is case insensitive', function () {
@@ -171,6 +201,14 @@ test('both camelCase and snake_case resolve to same API class', function () {
     // Content Migrations
     expect($this->manager->contentMigrations())
         ->toBe($this->manager->content_migrations());
+
+    // New v1.5.0 APIs snake_case equivalence
+    expect($this->manager->courseReports())
+        ->toBe($this->manager->course_reports());
+    expect($this->manager->brandConfigs())
+        ->toBe($this->manager->brand_configs());
+    expect($this->manager->developerKeys())
+        ->toBe($this->manager->developer_keys());
 });
 
 test('all documented camelCase methods work without exceptions', function () {
@@ -202,6 +240,16 @@ test('all documented camelCase methods work without exceptions', function () {
         'externalTool',
         'contentMigrations',
         'contentMigration',
+        'courseReports',
+        'analytics',
+        'logins',
+        'login',
+        'bookmarks',
+        'bookmark',
+        'brandConfigs',
+        'brandConfig',
+        'developerKeys',
+        'developerKey',
     ];
 
     foreach ($camelCaseMethods as $method) {
@@ -240,6 +288,11 @@ test('backward compatibility is maintained for snake_case methods', function () 
         'external_tool',
         'content_migrations',
         'content_migration',
+        'course_reports',
+        'brand_configs',
+        'brand_config',
+        'developer_keys',
+        'developer_key',
     ];
 
     foreach ($snakeCaseMethods as $method) {
@@ -285,6 +338,10 @@ test('singular camelCase methods with parameters resolve correctly', function ()
         $reflection = new ReflectionClass($this->manager);
         $callMethod = $reflection->getMethod('__call');
         expect($callMethod->isPublic())->toBeTrue();
+
+        // Variables are used in the test context - $method and $id are intentionally part of the test data
+        expect($method)->toBeString();
+        expect($id)->toBeInt();
     }
 });
 

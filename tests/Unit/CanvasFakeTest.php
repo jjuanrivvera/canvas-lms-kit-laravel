@@ -14,7 +14,7 @@ test('can fake api responses', function () {
         ],
     ]);
 
-    // Would normally call Course::fetchAll() here
+    // Would normally call Course::get() here
     // But we need the base SDK installed to test properly
 
     expect($this->fake)->toBeInstanceOf(CanvasFake::class);
