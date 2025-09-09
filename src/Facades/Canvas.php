@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * NOTE: Direct SDK usage is recommended over this facade for cleaner, more testable code.
  *
- * @deprecated Use direct SDK classes instead (e.g., Course::fetchAll() instead of Canvas::courses()::fetchAll())
+ * @deprecated Use direct SDK classes instead (e.g., Course::get() instead of Canvas::courses()::get())
  *
  * Connection Management:
  *
@@ -133,6 +133,34 @@ use Illuminate\Support\Facades\Facade;
  * @method static \CanvasLMS\Api\ContentMigrations\ContentMigration contentMigration(int $id)
  * @method static \CanvasLMS\Api\ContentMigrations\ContentMigration content_migration(int $id)
  * @method static string                                            progress()
+ *
+ * Reports & Analytics:
+ * @method static string courseReports()
+ * @method static string course_reports()
+ * @method static string analytics()
+ *
+ * Authentication & User Management:
+ * @method static string                      logins()
+ * @method static \CanvasLMS\Api\Logins\Login login(int $id)
+ *
+ * Bookmarks & Favorites:
+ * @method static string                            bookmarks()
+ * @method static \CanvasLMS\Api\Bookmarks\Bookmark bookmark(int $id)
+ *
+ * Branding & Theming:
+ * @method static string                                  brandConfigs()
+ * @method static string                                  brand_configs()
+ * @method static \CanvasLMS\Api\BrandConfigs\BrandConfig brandConfig(int $id)
+ * @method static \CanvasLMS\Api\BrandConfigs\BrandConfig brand_config(int $id)
+ *
+ * Developer Keys:
+ * @method static string                                    developerKeys()
+ * @method static string                                    developer_keys()
+ * @method static \CanvasLMS\Api\DeveloperKeys\DeveloperKey developerKey(int $id)
+ * @method static \CanvasLMS\Api\DeveloperKeys\DeveloperKey developer_key(int $id)
+ *
+ * Raw API Access:
+ * @method static \CanvasLMS\Canvas raw()
  *
  * @see \CanvasLMS\Laravel\CanvasManager
  */

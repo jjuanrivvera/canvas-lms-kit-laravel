@@ -3,7 +3,6 @@
 use CanvasLMS\Laravel\CanvasServiceProvider;
 use CanvasLMS\Laravel\Validation\ConfigurationValidator;
 use Illuminate\Support\Facades\Config;
-use Mockery;
 
 describe('Configuration Validation Integration', function () {
 

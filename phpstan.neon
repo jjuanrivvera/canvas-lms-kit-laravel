@@ -13,10 +13,7 @@ parameters:
     reportUnmatchedIgnoredErrors: true
     treatPhpDocTypesAsCertain: false
     
-    ignoreErrors:
-        # These API classes are recently added to the SDK
-        - '#Class CanvasLMS\\Api\\Announcements\\Announcement not found#'
-        - '#Class CanvasLMS\\Api\\MediaObjects\\MediaObject not found#'
+    ignoreErrors: []
         
     scanFiles:
         - vendor/jjuanrivvera/canvas-lms-kit/src/Config.php
