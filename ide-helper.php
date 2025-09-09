@@ -10,7 +10,9 @@
  */
 
 namespace {
-    exit('This file should not be included, only analyzed by your IDE');
+    if (! defined('IDE_HELPER_SAFE_MODE')) {
+        exit('This file should not be included, only analyzed by your IDE');
+    }
 }
 
 namespace CanvasLMS\Laravel\Facades {
