@@ -2,8 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jjuanrivvera/canvas-lms-kit-laravel.svg?style=flat-square)](https://packagist.org/packages/jjuanrivvera/canvas-lms-kit-laravel)
 [![Total Downloads](https://img.shields.io/packagist/dt/jjuanrivvera/canvas-lms-kit-laravel.svg?style=flat-square)](https://packagist.org/packages/jjuanrivvera/canvas-lms-kit-laravel)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jjuanrivvera/canvas-lms-kit-laravel/run-tests?label=tests)](https://github.com/jjuanrivvera/canvas-lms-kit-laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/jjuanrivvera/canvas-lms-kit-laravel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/jjuanrivvera/canvas-lms-kit-laravel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Tests](https://img.shields.io/github/actions/workflow/status/jjuanrivvera/canvas-lms-kit-laravel/run-tests.yml?branch=main&label=tests)](https://github.com/jjuanrivvera/canvas-lms-kit-laravel/actions)
 
 A minimal Laravel integration package for the [Canvas LMS Kit](https://github.com/jjuanrivvera/canvas-lms-kit). Auto-configure Canvas API access, manage multiple connections, and test with ease.
 
