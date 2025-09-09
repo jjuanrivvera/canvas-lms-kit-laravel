@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-09-09
+
 ### Added
 - **NEW**: Support for canvas-lms-kit v1.5.0 with 8 new Canvas APIs (#16)
   - Added Course Reports API (`Canvas::courseReports()`) for comprehensive course analytics
@@ -114,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI/CD pipeline
 - Comprehensive documentation and examples
 
-[Unreleased]: https://github.com/jjuanrivvera/canvas-lms-kit-laravel/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jjuanrivvera/canvas-lms-kit-laravel/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jjuanrivvera/canvas-lms-kit-laravel/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/jjuanrivvera/canvas-lms-kit-laravel/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/jjuanrivvera/canvas-lms-kit-laravel/releases/tag/v0.0.1
