@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **COMPATIBILITY**: Laravel 12 support - Updated illuminate package constraints to support Laravel 12.x
+  - Added support for illuminate/support ^12.0
+  - Added support for illuminate/console ^12.0 
+  - Added support for illuminate/config ^12.0
+  - Updated orchestra/testbench to ^10.0 for Laravel 12 testing compatibility
+  - Maintains full backward compatibility with Laravel 9, 10, and 11
+  - Enables usage with the latest Laravel framework versions
+
 ## [0.2.0] - 2025-09-09
 
 ### Added
