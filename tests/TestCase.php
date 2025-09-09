@@ -36,11 +36,14 @@ abstract class TestCase extends Orchestra
      */
     protected function defineEnvironment($app): void
     {
+        // Disable validation by default for tests (individual tests can enable it)
+        $app['config']->set('canvas.validation.enabled', false);
+
         // Set up default Canvas configuration for testing
         $app['config']->set('canvas.default', 'testing');
 
         $app['config']->set('canvas.connections.testing', [
-            'api_key'     => 'test-api-key',
+            'api_key'     => 'test_api_key_1234567890abcdef1234567890abcdef1234567890',
             'base_url'    => 'https://canvas.test.com',
             'account_id'  => 1,
             'timeout'     => 30,
@@ -48,7 +51,7 @@ abstract class TestCase extends Orchestra
         ]);
 
         $app['config']->set('canvas.connections.secondary', [
-            'api_key'    => 'secondary-api-key',
+            'api_key'    => 'secondary_api_key_1234567890abcdef1234567890abcdef123456',
             'base_url'   => 'https://secondary.test.com',
             'account_id' => 2,
         ]);

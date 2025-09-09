@@ -125,6 +125,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Configuration Validation
+    |--------------------------------------------------------------------------
+    |
+    | These options control validation of Canvas configuration. Validation
+    | helps catch configuration errors early and provides helpful error
+    | messages with guidance on how to fix issues.
+    |
+    | Performance Note: Validation is automatically skipped in production
+    | when configuration is cached to improve boot performance.
+    |
+    */
+
+    'validation' => [
+        'enabled'       => env('CANVAS_VALIDATION_ENABLED', true),
+        'strict'        => env('CANVAS_VALIDATION_STRICT', true),
+        'environments'  => ['local', 'testing', 'staging'],
+        'cache_results' => env('CANVAS_VALIDATION_CACHE', true),
+        'cache_key'     => 'canvas_validation_cache',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Testing Configuration
     |--------------------------------------------------------------------------
     |

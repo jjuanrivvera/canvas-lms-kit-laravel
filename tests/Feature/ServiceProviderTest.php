@@ -15,7 +15,7 @@ test('service provider registers canvas manager', function () {
 
 test('service provider auto configures from laravel config', function () {
     // Config is set in TestCase defineEnvironment
-    expect(Config::getApiKey())->toBe('test-api-key');
+    expect(Config::getApiKey())->toBe('test_api_key_1234567890abcdef1234567890abcdef1234567890');
     expect(Config::getBaseUrl())->toContain('canvas.test.com');
     expect(Config::getAccountId())->toBe(1);
 });

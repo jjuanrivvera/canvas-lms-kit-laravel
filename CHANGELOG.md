@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enables easier unit testing with mock objects and dependency injection patterns
   - Maintains full backward compatibility with no breaking changes
 
+- **SECURITY**: Added comprehensive configuration validation to prevent invalid settings (#6)
+  - Created `ConfigurationValidator` class with Canvas LMS-specific validation rules
+  - Validates API keys, URLs, authentication modes, timeouts, and account IDs
+  - Enforces HTTPS for Canvas URLs (with localhost development exception)
+  - Validates OAuth configuration completeness and redirect URI formats
+  - Provides clear, actionable error messages with fix instructions
+  - Catches configuration errors at application boot time for early detection
+  - Configurable validation system (enabled by default, can be disabled)
+  - Performance-optimized with validation result caching and environment detection
+  - Added 72 comprehensive tests covering all validation scenarios and edge cases
+  - Maintains full backward compatibility with existing valid configurations
+
 ### Changed
 - **Refactored**: Extracted duplicated configuration logic into `ConfiguresCanvas` trait
   - Eliminated code duplication between `CanvasServiceProvider` and `CanvasManager`
