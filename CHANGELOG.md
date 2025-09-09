@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **NEW**: Support for canvas-lms-kit v1.5.0 with 8 new Canvas APIs (#16)
+  - Added Course Reports API (`Canvas::courseReports()`) for comprehensive course analytics
+  - Added Developer Keys API (`Canvas::developerKeys()`) for API key management
+  - Added Login API (`Canvas::login()`) for session and authentication handling
+  - Added Analytics API (`Canvas::analytics()`) for user engagement and course analytics
+  - Added Bookmarks API (`Canvas::bookmarks()`) for user bookmark management
+  - Added Brand Configs API (`Canvas::brandConfigs()`) for institutional branding
+  - Support for both camelCase and snake_case method variants for all APIs
+  - Multi-tenant support for all new APIs via connection management
+
+- **NEW**: Raw Canvas API access through `Canvas::raw()` method (#16)
+  - Direct access to Canvas SDK for custom API endpoints: `Canvas::raw()->get('/api/v1/custom')`
+  - Supports all HTTP methods (GET, POST, PUT, DELETE) for unlimited flexibility
+  - Multi-tenant raw access: `Canvas::connection('tenant')->raw()->post('/endpoint')`
+  - Maintains minimal wrapper philosophy while providing unlimited API access
+  - Comprehensive test coverage for raw functionality
+
 - **NEW**: Added `CanvasManagerInterface` for better abstraction and testability
   - Created interface in `src/Contracts/CanvasManagerInterface.php` with all connection management methods
   - Updated `CanvasManager` to implement the interface for improved SOLID principles
@@ -29,6 +46,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Maintains full backward compatibility with existing valid configurations
 
 ### Changed
+- **DEPENDENCY**: Updated canvas-lms-kit dependency from ^1.4 to ^1.5 (#16)
+  - Upgraded from v1.4.1 to v1.5.0 with 100% backward compatibility
+  - Enhanced facade PHPDoc documentation for better IDE support with new APIs
+  - Improved static analysis coverage by removing obsolete ignore patterns
+  - Performance-optimized method resolution with static caching for faster API access
+
 - **Refactored**: Extracted duplicated configuration logic into `ConfiguresCanvas` trait
   - Eliminated code duplication between `CanvasServiceProvider` and `CanvasManager`
   - Reduced configuration methods from 153+ lines to centralized trait implementation

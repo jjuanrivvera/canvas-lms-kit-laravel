@@ -128,6 +128,34 @@ use InvalidArgumentException;
  * @method \CanvasLMS\Api\ContentMigrations\ContentMigration               contentMigration(int $id)
  * @method \CanvasLMS\Api\ContentMigrations\ContentMigration               content_migration(int $id)
  * @method class-string<\CanvasLMS\Api\Progress\Progress>                  progress()
+ *
+ * Reports & Analytics:
+ * @method class-string<\CanvasLMS\Api\CourseReports\CourseReports> courseReports()
+ * @method class-string<\CanvasLMS\Api\CourseReports\CourseReports> course_reports()
+ * @method class-string<\CanvasLMS\Api\Analytics\Analytics>         analytics()
+ *
+ * Authentication & User Management:
+ * @method class-string<\CanvasLMS\Api\Logins\Login> logins()
+ * @method \CanvasLMS\Api\Logins\Login               login(int $id)
+ *
+ * Bookmarks & Favorites:
+ * @method class-string<\CanvasLMS\Api\Bookmarks\Bookmark> bookmarks()
+ * @method \CanvasLMS\Api\Bookmarks\Bookmark               bookmark(int $id)
+ *
+ * Branding & Theming:
+ * @method class-string<\CanvasLMS\Api\BrandConfigs\BrandConfig> brandConfigs()
+ * @method class-string<\CanvasLMS\Api\BrandConfigs\BrandConfig> brand_configs()
+ * @method \CanvasLMS\Api\BrandConfigs\BrandConfig               brandConfig(int $id)
+ * @method \CanvasLMS\Api\BrandConfigs\BrandConfig               brand_config(int $id)
+ *
+ * Developer Keys:
+ * @method class-string<\CanvasLMS\Api\DeveloperKeys\DeveloperKey> developerKeys()
+ * @method class-string<\CanvasLMS\Api\DeveloperKeys\DeveloperKey> developer_keys()
+ * @method \CanvasLMS\Api\DeveloperKeys\DeveloperKey               developerKey(int $id)
+ * @method \CanvasLMS\Api\DeveloperKeys\DeveloperKey               developer_key(int $id)
+ *
+ * Raw API Access:
+ * @method \CanvasLMS\Canvas raw()
  */
 class CanvasManager implements CanvasManagerInterface
 {
@@ -267,6 +295,31 @@ class CanvasManager implements CanvasManagerInterface
         'content_migrations'   => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
         'content_migration'    => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
         'progress'             => \CanvasLMS\Api\Progress\Progress::class,
+
+        // Reports & Analytics
+        'courseReports'        => \CanvasLMS\Api\CourseReports\CourseReports::class,
+        'course_reports'       => \CanvasLMS\Api\CourseReports\CourseReports::class,
+        'analytics'            => \CanvasLMS\Api\Analytics\Analytics::class,
+
+        // Authentication & User Management
+        'logins'               => \CanvasLMS\Api\Logins\Login::class,
+        'login'                => \CanvasLMS\Api\Logins\Login::class,
+
+        // Bookmarks & Favorites
+        'bookmarks'            => \CanvasLMS\Api\Bookmarks\Bookmark::class,
+        'bookmark'             => \CanvasLMS\Api\Bookmarks\Bookmark::class,
+
+        // Branding & Theming
+        'brandConfigs'         => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
+        'brandConfig'          => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
+        'brand_configs'        => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
+        'brand_config'         => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
+
+        // Developer Keys
+        'developerKeys'        => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
+        'developerKey'         => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
+        'developer_keys'       => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
+        'developer_key'        => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
     ];
 
     /**
@@ -390,6 +443,20 @@ class CanvasManager implements CanvasManagerInterface
     }
 
     /**
+     * Access the raw Canvas API facade for custom requests.
+     *
+     * This provides direct access to the Canvas class from the SDK,
+     * allowing for custom API calls to any Canvas endpoint.
+     *
+     * @example Canvas::raw()->get('/api/v1/custom/endpoint')
+     * @example Canvas::raw()->post('/api/v1/courses/123/custom', ['data' => 'value'])
+     */
+    public function raw(): \CanvasLMS\Canvas
+    {
+        return new \CanvasLMS\Canvas;
+    }
+
+    /**
      * Dynamically proxy method calls to Canvas LMS Kit API classes.
      *
      * This allows for syntax like:
@@ -418,7 +485,7 @@ class CanvasManager implements CanvasManagerInterface
             }
 
             // Return the class name for static method chaining
-            // This allows Canvas::courses()::fetchAll()
+            // This allows Canvas::courses()::get()
             return $className;
         }
 

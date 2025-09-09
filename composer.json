@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "jjuanrivvera/canvas-lms-kit": "^1.4",
+        "jjuanrivvera/canvas-lms-kit": "^1.5",
         "illuminate/support": "^9.0|^10.0|^11.0",
         "illuminate/console": "^9.0|^10.0|^11.0",
         "illuminate/config": "^9.0|^10.0|^11.0"
@@ -46,10 +46,7 @@
     "autoload-dev": {
         "psr-4": {
             "CanvasLMS\\Laravel\\Tests\\": "tests/"
-        },
-        "files": [
-            "ide-helper.php"
-        ]
+        }
     },
     "extra": {
         "laravel": {
