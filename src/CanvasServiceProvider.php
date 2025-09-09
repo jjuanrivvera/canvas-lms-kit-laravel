@@ -2,13 +2,16 @@
 
 namespace CanvasLMS\Laravel;
 
-use CanvasLMS\Config;
 use CanvasLMS\Laravel\Commands\TestConnectionCommand;
-use Illuminate\Support\Facades\Log;
+use CanvasLMS\Laravel\Concerns\ConfiguresCanvas;
+use CanvasLMS\Laravel\Contracts\CanvasManagerInterface;
+use CanvasLMS\Laravel\Validation\ConfigurationValidator;
 use Illuminate\Support\ServiceProvider;
 
 class CanvasServiceProvider extends ServiceProvider
 {
+    use ConfiguresCanvas;
+
     /**
      * Register any application services.
      */
@@ -25,9 +28,20 @@ class CanvasServiceProvider extends ServiceProvider
             return new CanvasManager($app['config']['canvas']);
         });
 
+        // Bind the interface to the same singleton implementation
+        $this->app->bind(CanvasManagerInterface::class, function ($app) {
+            return $app->make(CanvasManager::class);
+        });
+
         // Register the CanvasManager as 'canvas' for facade access
         $this->app->singleton('canvas', function ($app) {
             return $app->make(CanvasManager::class);
+        });
+
+        // Defer validation until after configuration is fully loaded
+        // This prevents issues with config caching and improves boot performance
+        $this->app->booting(function () {
+            $this->validateConfiguration();
         });
     }
 
@@ -61,79 +75,62 @@ class CanvasServiceProvider extends ServiceProvider
         $defaultConnection = config('canvas.default', 'main');
         $config = config("canvas.connections.{$defaultConnection}");
 
-        if ($config === null) {
+        if ($config !== null) {
+            $this->applyCanvasConfiguration($config);
+        }
+    }
+
+    /**
+     * Validate Canvas configuration with performance optimizations.
+     *
+     * This method implements several performance optimizations:
+     * - Skips validation when config is cached in production
+     * - Only validates in specific environments
+     * - Uses validation result caching
+     */
+    protected function validateConfiguration(): void
+    {
+        // Skip validation when config is cached in production for better performance
+        // Use method_exists to safely check for configurationIsCached method
+        $isConfigCached = method_exists($this->app, 'configurationIsCached')
+            && $this->app->configurationIsCached();
+        $isProduction = (bool) $this->app->environment('production');
+
+        if ($isConfigCached && $isProduction) {
             return;
         }
 
-        // Set API credentials
-        if (isset($config['api_key']) && $config['api_key'] !== '') {
-            Config::setApiKey($config['api_key']);
+        $validationEnabled = config('canvas.validation.enabled', true);
+
+        if ($validationEnabled !== true) {
+            return;
         }
 
-        if (isset($config['base_url']) && $config['base_url'] !== '') {
-            Config::setBaseUrl($config['base_url']);
+        // Only validate in specified environments (defaults: local, testing, staging)
+        $validationEnvironments = config('canvas.validation.environments', ['local', 'testing', 'staging']);
+        if (! (bool) $this->app->environment($validationEnvironments)) {
+            return;
         }
 
-        // Set optional configuration
-        if (isset($config['account_id'])) {
-            Config::setAccountId($config['account_id']);
+        $canvasConfig = config('canvas');
+
+        if ($canvasConfig === null) {
+            throw new \InvalidArgumentException(
+                'Canvas configuration is not available. Please ensure the canvas.php config file is properly configured.'
+            );
         }
 
-        if (isset($config['timeout'])) {
-            Config::setTimeout($config['timeout']);
-        }
-
-        // Configure logging
-        if (isset($config['log_channel']) && $config['log_channel'] !== '') {
-            try {
-                $logger = Log::channel($config['log_channel']);
-                Config::setLogger($logger);
-            } catch (\Exception $e) {
-                // Silently fail if log channel doesn't exist
-                // This prevents breaking the application during config caching
-            }
-        }
-
-        // Set API version if configured
-        if (isset($config['api_version']) && $config['api_version'] !== '') {
-            Config::setApiVersion($config['api_version']);
-        }
-
-        // Configure middleware if specified
-        if (isset($config['middleware']) && is_array($config['middleware'])) {
-            Config::setMiddleware($config['middleware']);
-        }
-
-        // Configure authentication based on auth_mode
-        $authMode = $config['auth_mode'] ?? 'api_key';
-
-        if ($authMode === 'oauth') {
-            // Set OAuth credentials if using OAuth mode
-            if (isset($config['oauth_client_id']) && $config['oauth_client_id'] !== '') {
-                Config::setOAuthClientId($config['oauth_client_id']);
-            }
-
-            if (isset($config['oauth_client_secret']) && $config['oauth_client_secret'] !== '') {
-                Config::setOAuthClientSecret($config['oauth_client_secret']);
-            }
-
-            if (isset($config['oauth_redirect_uri']) && $config['oauth_redirect_uri'] !== '') {
-                Config::setOAuthRedirectUri($config['oauth_redirect_uri']);
-            }
-
-            if (isset($config['oauth_token']) && $config['oauth_token'] !== '') {
-                Config::setOAuthToken($config['oauth_token']);
-            }
-
-            if (isset($config['oauth_refresh_token']) && $config['oauth_refresh_token'] !== '') {
-                Config::setOAuthRefreshToken($config['oauth_refresh_token']);
-            }
-
-            // Switch to OAuth mode
-            Config::useOAuth();
-        } else {
-            // Ensure API key mode is active (default)
-            Config::useApiKey();
+        try {
+            // Use optimized validation with caching
+            $useCache = config('canvas.validation.cache_results', true);
+            ConfigurationValidator::validateCanvasConfigurationOptimized($canvasConfig, $useCache);
+        } catch (\InvalidArgumentException $e) {
+            // Re-throw with additional context about how to fix the issue
+            throw new \InvalidArgumentException(
+                "Canvas configuration validation failed: {$e->getMessage()}\n\n" .
+                'To disable configuration validation, set CANVAS_VALIDATION_ENABLED=false in your .env file. ' .
+                'However, fixing the configuration issues is recommended for security and reliability.'
+            );
         }
     }
 
@@ -146,6 +143,7 @@ class CanvasServiceProvider extends ServiceProvider
     {
         return [
             CanvasManager::class,
+            CanvasManagerInterface::class,
             'canvas',
         ];
     }
