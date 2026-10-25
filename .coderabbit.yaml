@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
-# CodeRabbit config — PHP library.
+# CodeRabbit config — Laravel package for Canvas LMS Kit.
 reviews:
   profile: chill
   poem: false
@@ -9,11 +9,18 @@ reviews:
   path_filters:
     - "!vendor/**"
     - "!**/*.lock"
+    # IDE stub only. It exits if loaded and is not part of the runtime package.
+    - "!ide-helper.php"
   path_instructions:
     - path: "**/*.php"
       instructions: |
-        Follow AGENTS.md / CONTRIBUTING.md. Comments explain WHY, not WHAT. PSR-12. No secrets in code.
+        Laravel package. Style is Pint's laravel preset (PSR-12); do not require declare(strict_types=1).
+        Static analysis is PHPStan level 8 with strict rules on src/. Tests are Pest.
+        Comments explain WHY, not WHAT. No secrets in code.
         Flag SQL built by string concatenation, unvalidated input, and missing type hints/return types.
+        This package configures jjuanrivvera/canvas-lms-kit. Do not reimplement the Canvas HTTP client.
+        Keep Canvas API keys, OAuth client secrets, and tokens out of source, logs, and error messages.
+        Preserve backward compatibility of the service provider, Canvas facade, published config, and CanvasFake.
 knowledge_base:
   code_guidelines:
     enabled: true
