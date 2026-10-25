@@ -3,6 +3,8 @@
 namespace CanvasLMS\Laravel\Tests;
 
 use CanvasLMS\Laravel\CanvasServiceProvider;
+use CanvasLMS\Laravel\Facades\Canvas;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -18,7 +20,7 @@ abstract class TestCase extends Orchestra
     /**
      * Get package providers.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      *
      * @return array<string>
      */
@@ -32,7 +34,7 @@ abstract class TestCase extends Orchestra
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      */
     protected function defineEnvironment($app): void
     {
@@ -62,14 +64,14 @@ abstract class TestCase extends Orchestra
     /**
      * Get package aliases.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      *
      * @return array<string, string>
      */
     protected function getPackageAliases($app): array
     {
         return [
-            'Canvas' => \CanvasLMS\Laravel\Facades\Canvas::class,
+            'Canvas' => Canvas::class,
         ];
     }
 }

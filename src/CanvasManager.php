@@ -2,6 +2,47 @@
 
 namespace CanvasLMS\Laravel;
 
+use CanvasLMS\Api\Accounts\Account;
+use CanvasLMS\Api\Admins\Admin;
+use CanvasLMS\Api\Analytics\Analytics;
+use CanvasLMS\Api\Announcements\Announcement;
+use CanvasLMS\Api\AppointmentGroups\AppointmentGroup;
+use CanvasLMS\Api\Assignments\Assignment;
+use CanvasLMS\Api\Bookmarks\Bookmark;
+use CanvasLMS\Api\BrandConfigs\BrandConfig;
+use CanvasLMS\Api\CalendarEvents\CalendarEvent;
+use CanvasLMS\Api\Conferences\Conference;
+use CanvasLMS\Api\ContentMigrations\ContentMigration;
+use CanvasLMS\Api\Conversations\Conversation;
+use CanvasLMS\Api\CourseReports\CourseReports;
+use CanvasLMS\Api\Courses\Course;
+use CanvasLMS\Api\DeveloperKeys\DeveloperKey;
+use CanvasLMS\Api\DiscussionTopics\DiscussionTopic;
+use CanvasLMS\Api\Enrollments\Enrollment;
+use CanvasLMS\Api\ExternalTools\ExternalTool;
+use CanvasLMS\Api\FeatureFlags\FeatureFlag;
+use CanvasLMS\Api\Files\File;
+use CanvasLMS\Api\GradebookHistory\GradebookHistory;
+use CanvasLMS\Api\GroupCategories\GroupCategory;
+use CanvasLMS\Api\Groups\Group;
+use CanvasLMS\Api\Logins\Login;
+use CanvasLMS\Api\MediaObjects\MediaObject;
+use CanvasLMS\Api\Modules\Module;
+use CanvasLMS\Api\OutcomeGroups\OutcomeGroup;
+use CanvasLMS\Api\OutcomeImports\OutcomeImport;
+use CanvasLMS\Api\OutcomeResults\OutcomeResult;
+use CanvasLMS\Api\Outcomes\Outcome;
+use CanvasLMS\Api\Pages\Page;
+use CanvasLMS\Api\Progress\Progress;
+use CanvasLMS\Api\QuizSubmissions\QuizSubmission;
+use CanvasLMS\Api\Quizzes\Quiz;
+use CanvasLMS\Api\Rubrics\Rubric;
+use CanvasLMS\Api\Sections\Section;
+use CanvasLMS\Api\SubmissionComments\SubmissionComment;
+use CanvasLMS\Api\Submissions\Submission;
+use CanvasLMS\Api\Tabs\Tab;
+use CanvasLMS\Api\Users\User;
+use CanvasLMS\Canvas;
 use CanvasLMS\Laravel\Concerns\ConfiguresCanvas;
 use CanvasLMS\Laravel\Contracts\CanvasManagerInterface;
 use InvalidArgumentException;
@@ -182,144 +223,144 @@ class CanvasManager implements CanvasManagerInterface
      */
     private const API_CLASS_MAP = [
         // Core Resources
-        'courses'              => \CanvasLMS\Api\Courses\Course::class,
-        'course'               => \CanvasLMS\Api\Courses\Course::class,
-        'users'                => \CanvasLMS\Api\Users\User::class,
-        'user'                 => \CanvasLMS\Api\Users\User::class,
-        'accounts'             => \CanvasLMS\Api\Accounts\Account::class,
-        'account'              => \CanvasLMS\Api\Accounts\Account::class,
+        'courses'              => Course::class,
+        'course'               => Course::class,
+        'users'                => User::class,
+        'user'                 => User::class,
+        'accounts'             => Account::class,
+        'account'              => Account::class,
 
         // Course Components
-        'enrollments'          => \CanvasLMS\Api\Enrollments\Enrollment::class,
-        'enrollment'           => \CanvasLMS\Api\Enrollments\Enrollment::class,
-        'assignments'          => \CanvasLMS\Api\Assignments\Assignment::class,
-        'assignment'           => \CanvasLMS\Api\Assignments\Assignment::class,
-        'modules'              => \CanvasLMS\Api\Modules\Module::class,
-        'module'               => \CanvasLMS\Api\Modules\Module::class,
-        'pages'                => \CanvasLMS\Api\Pages\Page::class,
-        'page'                 => \CanvasLMS\Api\Pages\Page::class,
-        'sections'             => \CanvasLMS\Api\Sections\Section::class,
-        'section'              => \CanvasLMS\Api\Sections\Section::class,
-        'tabs'                 => \CanvasLMS\Api\Tabs\Tab::class,
-        'tab'                  => \CanvasLMS\Api\Tabs\Tab::class,
-        'announcements'        => \CanvasLMS\Api\Announcements\Announcement::class,
-        'announcement'         => \CanvasLMS\Api\Announcements\Announcement::class,
+        'enrollments'          => Enrollment::class,
+        'enrollment'           => Enrollment::class,
+        'assignments'          => Assignment::class,
+        'assignment'           => Assignment::class,
+        'modules'              => Module::class,
+        'module'               => Module::class,
+        'pages'                => Page::class,
+        'page'                 => Page::class,
+        'sections'             => Section::class,
+        'section'              => Section::class,
+        'tabs'                 => Tab::class,
+        'tab'                  => Tab::class,
+        'announcements'        => Announcement::class,
+        'announcement'         => Announcement::class,
 
         // Discussions
-        'discussionTopics'     => \CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class,
-        'discussionTopic'      => \CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class,
-        'discussion_topics'    => \CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class,
-        'discussion_topic'     => \CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class,
+        'discussionTopics'     => DiscussionTopic::class,
+        'discussionTopic'      => DiscussionTopic::class,
+        'discussion_topics'    => DiscussionTopic::class,
+        'discussion_topic'     => DiscussionTopic::class,
 
         // Files & Media
-        'files'                => \CanvasLMS\Api\Files\File::class,
-        'file'                 => \CanvasLMS\Api\Files\File::class,
-        'mediaObjects'         => \CanvasLMS\Api\MediaObjects\MediaObject::class,
-        'mediaObject'          => \CanvasLMS\Api\MediaObjects\MediaObject::class,
-        'media_objects'        => \CanvasLMS\Api\MediaObjects\MediaObject::class,
-        'media_object'         => \CanvasLMS\Api\MediaObjects\MediaObject::class,
+        'files'                => File::class,
+        'file'                 => File::class,
+        'mediaObjects'         => MediaObject::class,
+        'mediaObject'          => MediaObject::class,
+        'media_objects'        => MediaObject::class,
+        'media_object'         => MediaObject::class,
 
         // Grading & Assessment
-        'quizzes'              => \CanvasLMS\Api\Quizzes\Quiz::class,
-        'quiz'                 => \CanvasLMS\Api\Quizzes\Quiz::class,
-        'quizSubmissions'      => \CanvasLMS\Api\QuizSubmissions\QuizSubmission::class,
-        'quizSubmission'       => \CanvasLMS\Api\QuizSubmissions\QuizSubmission::class,
-        'quiz_submissions'     => \CanvasLMS\Api\QuizSubmissions\QuizSubmission::class,
-        'quiz_submission'      => \CanvasLMS\Api\QuizSubmissions\QuizSubmission::class,
-        'submissions'          => \CanvasLMS\Api\Submissions\Submission::class,
-        'submission'           => \CanvasLMS\Api\Submissions\Submission::class,
-        'submissionComments'   => \CanvasLMS\Api\SubmissionComments\SubmissionComment::class,
-        'submissionComment'    => \CanvasLMS\Api\SubmissionComments\SubmissionComment::class,
-        'submission_comments'  => \CanvasLMS\Api\SubmissionComments\SubmissionComment::class,
-        'submission_comment'   => \CanvasLMS\Api\SubmissionComments\SubmissionComment::class,
-        'rubrics'              => \CanvasLMS\Api\Rubrics\Rubric::class,
-        'rubric'               => \CanvasLMS\Api\Rubrics\Rubric::class,
-        'gradebookHistory'     => \CanvasLMS\Api\GradebookHistory\GradebookHistory::class,
-        'gradebook_history'    => \CanvasLMS\Api\GradebookHistory\GradebookHistory::class,
+        'quizzes'              => Quiz::class,
+        'quiz'                 => Quiz::class,
+        'quizSubmissions'      => QuizSubmission::class,
+        'quizSubmission'       => QuizSubmission::class,
+        'quiz_submissions'     => QuizSubmission::class,
+        'quiz_submission'      => QuizSubmission::class,
+        'submissions'          => Submission::class,
+        'submission'           => Submission::class,
+        'submissionComments'   => SubmissionComment::class,
+        'submissionComment'    => SubmissionComment::class,
+        'submission_comments'  => SubmissionComment::class,
+        'submission_comment'   => SubmissionComment::class,
+        'rubrics'              => Rubric::class,
+        'rubric'               => Rubric::class,
+        'gradebookHistory'     => GradebookHistory::class,
+        'gradebook_history'    => GradebookHistory::class,
 
         // Groups
-        'groups'               => \CanvasLMS\Api\Groups\Group::class,
-        'group'                => \CanvasLMS\Api\Groups\Group::class,
-        'groupCategories'      => \CanvasLMS\Api\GroupCategories\GroupCategory::class,
-        'groupCategory'        => \CanvasLMS\Api\GroupCategories\GroupCategory::class,
-        'group_categories'     => \CanvasLMS\Api\GroupCategories\GroupCategory::class,
-        'group_category'       => \CanvasLMS\Api\GroupCategories\GroupCategory::class,
+        'groups'               => Group::class,
+        'group'                => Group::class,
+        'groupCategories'      => GroupCategory::class,
+        'groupCategory'        => GroupCategory::class,
+        'group_categories'     => GroupCategory::class,
+        'group_category'       => GroupCategory::class,
 
         // Outcomes
-        'outcomes'             => \CanvasLMS\Api\Outcomes\Outcome::class,
-        'outcome'              => \CanvasLMS\Api\Outcomes\Outcome::class,
-        'outcomeGroups'        => \CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class,
-        'outcomeGroup'         => \CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class,
-        'outcome_groups'       => \CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class,
-        'outcome_group'        => \CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class,
-        'outcomeResults'       => \CanvasLMS\Api\OutcomeResults\OutcomeResult::class,
-        'outcomeResult'        => \CanvasLMS\Api\OutcomeResults\OutcomeResult::class,
-        'outcome_results'      => \CanvasLMS\Api\OutcomeResults\OutcomeResult::class,
-        'outcome_result'       => \CanvasLMS\Api\OutcomeResults\OutcomeResult::class,
-        'outcomeImports'       => \CanvasLMS\Api\OutcomeImports\OutcomeImport::class,
-        'outcomeImport'        => \CanvasLMS\Api\OutcomeImports\OutcomeImport::class,
-        'outcome_imports'      => \CanvasLMS\Api\OutcomeImports\OutcomeImport::class,
-        'outcome_import'       => \CanvasLMS\Api\OutcomeImports\OutcomeImport::class,
+        'outcomes'             => Outcome::class,
+        'outcome'              => Outcome::class,
+        'outcomeGroups'        => OutcomeGroup::class,
+        'outcomeGroup'         => OutcomeGroup::class,
+        'outcome_groups'       => OutcomeGroup::class,
+        'outcome_group'        => OutcomeGroup::class,
+        'outcomeResults'       => OutcomeResult::class,
+        'outcomeResult'        => OutcomeResult::class,
+        'outcome_results'      => OutcomeResult::class,
+        'outcome_result'       => OutcomeResult::class,
+        'outcomeImports'       => OutcomeImport::class,
+        'outcomeImport'        => OutcomeImport::class,
+        'outcome_imports'      => OutcomeImport::class,
+        'outcome_import'       => OutcomeImport::class,
 
         // Calendar & Scheduling
-        'calendarEvents'       => \CanvasLMS\Api\CalendarEvents\CalendarEvent::class,
-        'calendarEvent'        => \CanvasLMS\Api\CalendarEvents\CalendarEvent::class,
-        'calendar_events'      => \CanvasLMS\Api\CalendarEvents\CalendarEvent::class,
-        'calendar_event'       => \CanvasLMS\Api\CalendarEvents\CalendarEvent::class,
-        'appointmentGroups'    => \CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class,
-        'appointmentGroup'     => \CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class,
-        'appointment_groups'   => \CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class,
-        'appointment_group'    => \CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class,
+        'calendarEvents'       => CalendarEvent::class,
+        'calendarEvent'        => CalendarEvent::class,
+        'calendar_events'      => CalendarEvent::class,
+        'calendar_event'       => CalendarEvent::class,
+        'appointmentGroups'    => AppointmentGroup::class,
+        'appointmentGroup'     => AppointmentGroup::class,
+        'appointment_groups'   => AppointmentGroup::class,
+        'appointment_group'    => AppointmentGroup::class,
 
         // Communication
-        'conversations'        => \CanvasLMS\Api\Conversations\Conversation::class,
-        'conversation'         => \CanvasLMS\Api\Conversations\Conversation::class,
-        'conferences'          => \CanvasLMS\Api\Conferences\Conference::class,
-        'conference'           => \CanvasLMS\Api\Conferences\Conference::class,
+        'conversations'        => Conversation::class,
+        'conversation'         => Conversation::class,
+        'conferences'          => Conference::class,
+        'conference'           => Conference::class,
 
         // Admin & Configuration
-        'admins'               => \CanvasLMS\Api\Admins\Admin::class,
-        'admin'                => \CanvasLMS\Api\Admins\Admin::class,
-        'featureFlags'         => \CanvasLMS\Api\FeatureFlags\FeatureFlag::class,
-        'featureFlag'          => \CanvasLMS\Api\FeatureFlags\FeatureFlag::class,
-        'feature_flags'        => \CanvasLMS\Api\FeatureFlags\FeatureFlag::class,
-        'feature_flag'         => \CanvasLMS\Api\FeatureFlags\FeatureFlag::class,
-        'externalTools'        => \CanvasLMS\Api\ExternalTools\ExternalTool::class,
-        'externalTool'         => \CanvasLMS\Api\ExternalTools\ExternalTool::class,
-        'external_tools'       => \CanvasLMS\Api\ExternalTools\ExternalTool::class,
-        'external_tool'        => \CanvasLMS\Api\ExternalTools\ExternalTool::class,
+        'admins'               => Admin::class,
+        'admin'                => Admin::class,
+        'featureFlags'         => FeatureFlag::class,
+        'featureFlag'          => FeatureFlag::class,
+        'feature_flags'        => FeatureFlag::class,
+        'feature_flag'         => FeatureFlag::class,
+        'externalTools'        => ExternalTool::class,
+        'externalTool'         => ExternalTool::class,
+        'external_tools'       => ExternalTool::class,
+        'external_tool'        => ExternalTool::class,
 
         // Content & Migration
-        'contentMigrations'    => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
-        'contentMigration'     => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
-        'content_migrations'   => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
-        'content_migration'    => \CanvasLMS\Api\ContentMigrations\ContentMigration::class,
-        'progress'             => \CanvasLMS\Api\Progress\Progress::class,
+        'contentMigrations'    => ContentMigration::class,
+        'contentMigration'     => ContentMigration::class,
+        'content_migrations'   => ContentMigration::class,
+        'content_migration'    => ContentMigration::class,
+        'progress'             => Progress::class,
 
         // Reports & Analytics
-        'courseReports'        => \CanvasLMS\Api\CourseReports\CourseReports::class,
-        'course_reports'       => \CanvasLMS\Api\CourseReports\CourseReports::class,
-        'analytics'            => \CanvasLMS\Api\Analytics\Analytics::class,
+        'courseReports'        => CourseReports::class,
+        'course_reports'       => CourseReports::class,
+        'analytics'            => Analytics::class,
 
         // Authentication & User Management
-        'logins'               => \CanvasLMS\Api\Logins\Login::class,
-        'login'                => \CanvasLMS\Api\Logins\Login::class,
+        'logins'               => Login::class,
+        'login'                => Login::class,
 
         // Bookmarks & Favorites
-        'bookmarks'            => \CanvasLMS\Api\Bookmarks\Bookmark::class,
-        'bookmark'             => \CanvasLMS\Api\Bookmarks\Bookmark::class,
+        'bookmarks'            => Bookmark::class,
+        'bookmark'             => Bookmark::class,
 
         // Branding & Theming
-        'brandConfigs'         => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
-        'brandConfig'          => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
-        'brand_configs'        => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
-        'brand_config'         => \CanvasLMS\Api\BrandConfigs\BrandConfig::class,
+        'brandConfigs'         => BrandConfig::class,
+        'brandConfig'          => BrandConfig::class,
+        'brand_configs'        => BrandConfig::class,
+        'brand_config'         => BrandConfig::class,
 
         // Developer Keys
-        'developerKeys'        => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
-        'developerKey'         => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
-        'developer_keys'       => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
-        'developer_key'        => \CanvasLMS\Api\DeveloperKeys\DeveloperKey::class,
+        'developerKeys'        => DeveloperKey::class,
+        'developerKey'         => DeveloperKey::class,
+        'developer_keys'       => DeveloperKey::class,
+        'developer_key'        => DeveloperKey::class,
     ];
 
     /**
@@ -451,9 +492,9 @@ class CanvasManager implements CanvasManagerInterface
      * @example Canvas::raw()->get('/api/v1/custom/endpoint')
      * @example Canvas::raw()->post('/api/v1/courses/123/custom', ['data' => 'value'])
      */
-    public function raw(): \CanvasLMS\Canvas
+    public function raw(): Canvas
     {
-        return new \CanvasLMS\Canvas;
+        return new Canvas;
     }
 
     /**

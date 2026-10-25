@@ -2,12 +2,13 @@
 
 namespace CanvasLMS\Laravel\Facades;
 
+use CanvasLMS\Laravel\CanvasManager;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Canvas Facade for Laravel.
  *
- * @mixin \CanvasLMS\Laravel\CanvasManager
+ * @mixin CanvasManager
  *
  * NOTE: Direct SDK usage is recommended over this facade for cleaner, more testable code.
  *
@@ -162,7 +163,7 @@ use Illuminate\Support\Facades\Facade;
  * Raw API Access:
  * @method static \CanvasLMS\Canvas raw()
  *
- * @see \CanvasLMS\Laravel\CanvasManager
+ * @see CanvasManager
  */
 class Canvas extends Facade
 {

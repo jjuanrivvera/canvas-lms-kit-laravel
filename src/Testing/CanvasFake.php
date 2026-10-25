@@ -6,6 +6,7 @@ use CanvasLMS\Api\AbstractBaseApi;
 use CanvasLMS\Interfaces\HttpClientInterface;
 use Carbon\Carbon;
 use Mockery;
+use Mockery\MockInterface;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -33,7 +34,7 @@ class CanvasFake
     /**
      * The mock HTTP client.
      *
-     * @var HttpClientInterface|\Mockery\MockInterface|null
+     * @var HttpClientInterface|MockInterface|null
      */
     protected $mockClient = null;
 
@@ -324,7 +325,7 @@ class CanvasFake
     /**
      * Get the mock HTTP client for testing purposes.
      *
-     * @return HttpClientInterface|\Mockery\MockInterface|null
+     * @return HttpClientInterface|MockInterface|null
      */
     public function getMockClient()
     {
