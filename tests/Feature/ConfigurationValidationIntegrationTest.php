@@ -61,7 +61,7 @@ describe('Configuration Validation Integration', function () {
 
         expect(function () use ($provider) {
             // Call the protected validateConfiguration method using reflection
-            $reflection = new \ReflectionClass($provider);
+            $reflection = new ReflectionClass($provider);
             $method = $reflection->getMethod('validateConfiguration');
             $method->setAccessible(true);
             $method->invoke($provider);
@@ -107,7 +107,7 @@ describe('Configuration Validation Integration', function () {
 
         expect(function () use ($provider) {
             // Call the protected validateConfiguration method using reflection
-            $reflection = new \ReflectionClass($provider);
+            $reflection = new ReflectionClass($provider);
             $method = $reflection->getMethod('validateConfiguration');
             $method->setAccessible(true);
             $method->invoke($provider);
@@ -134,14 +134,14 @@ describe('Configuration Validation Integration', function () {
 
         expect(function () use ($provider) {
             // Call the protected validateConfiguration method using reflection
-            $reflection = new \ReflectionClass($provider);
+            $reflection = new ReflectionClass($provider);
             $method = $reflection->getMethod('validateConfiguration');
             $method->setAccessible(true);
             $method->invoke($provider);
         })->toThrow(InvalidArgumentException::class)
             ->and(function () use ($provider) {
                 // Call the method again to test the error message
-                $reflection = new \ReflectionClass($provider);
+                $reflection = new ReflectionClass($provider);
                 $method = $reflection->getMethod('validateConfiguration');
                 $method->setAccessible(true);
                 $method->invoke($provider);
@@ -157,7 +157,7 @@ describe('Configuration Validation Integration', function () {
 
         expect(function () use ($provider) {
             // Call the protected validateConfiguration method using reflection
-            $reflection = new \ReflectionClass($provider);
+            $reflection = new ReflectionClass($provider);
             $method = $reflection->getMethod('validateConfiguration');
             $method->setAccessible(true);
             $method->invoke($provider);
@@ -238,7 +238,7 @@ describe('Configuration Validation Integration', function () {
 
         expect(function () use ($provider) {
             // Call the protected validateConfiguration method using reflection
-            $reflection = new \ReflectionClass($provider);
+            $reflection = new ReflectionClass($provider);
             $method = $reflection->getMethod('validateConfiguration');
             $method->setAccessible(true);
             $method->invoke($provider);
@@ -353,7 +353,7 @@ describe('Configuration Validation Integration', function () {
 
                 expect(function () use ($provider) {
                     // Call the protected validateConfiguration method using reflection
-                    $reflection = new \ReflectionClass($provider);
+                    $reflection = new ReflectionClass($provider);
                     $method = $reflection->getMethod('validateConfiguration');
                     $method->setAccessible(true);
                     $method->invoke($provider);

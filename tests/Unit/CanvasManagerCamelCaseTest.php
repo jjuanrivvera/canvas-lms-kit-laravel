@@ -1,5 +1,25 @@
 <?php
 
+use CanvasLMS\Api\Analytics\Analytics;
+use CanvasLMS\Api\AppointmentGroups\AppointmentGroup;
+use CanvasLMS\Api\Bookmarks\Bookmark;
+use CanvasLMS\Api\BrandConfigs\BrandConfig;
+use CanvasLMS\Api\CalendarEvents\CalendarEvent;
+use CanvasLMS\Api\ContentMigrations\ContentMigration;
+use CanvasLMS\Api\CourseReports\CourseReports;
+use CanvasLMS\Api\DeveloperKeys\DeveloperKey;
+use CanvasLMS\Api\DiscussionTopics\DiscussionTopic;
+use CanvasLMS\Api\ExternalTools\ExternalTool;
+use CanvasLMS\Api\FeatureFlags\FeatureFlag;
+use CanvasLMS\Api\GradebookHistory\GradebookHistory;
+use CanvasLMS\Api\GroupCategories\GroupCategory;
+use CanvasLMS\Api\Logins\Login;
+use CanvasLMS\Api\MediaObjects\MediaObject;
+use CanvasLMS\Api\OutcomeGroups\OutcomeGroup;
+use CanvasLMS\Api\OutcomeImports\OutcomeImport;
+use CanvasLMS\Api\OutcomeResults\OutcomeResult;
+use CanvasLMS\Api\QuizSubmissions\QuizSubmission;
+use CanvasLMS\Api\SubmissionComments\SubmissionComment;
 use CanvasLMS\Laravel\CanvasManager;
 
 beforeEach(function () {
@@ -20,109 +40,109 @@ beforeEach(function () {
 test('camelCase methods resolve to correct API classes', function () {
     // Discussion APIs
     expect($this->manager->discussionTopics())
-        ->toBe(\CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class);
+        ->toBe(DiscussionTopic::class);
     expect($this->manager->discussionTopic())
-        ->toBe(\CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class);
+        ->toBe(DiscussionTopic::class);
 
     // Media APIs
     expect($this->manager->mediaObjects())
-        ->toBe(\CanvasLMS\Api\MediaObjects\MediaObject::class);
+        ->toBe(MediaObject::class);
     expect($this->manager->mediaObject())
-        ->toBe(\CanvasLMS\Api\MediaObjects\MediaObject::class);
+        ->toBe(MediaObject::class);
 
     // Quiz APIs
     expect($this->manager->quizSubmissions())
-        ->toBe(\CanvasLMS\Api\QuizSubmissions\QuizSubmission::class);
+        ->toBe(QuizSubmission::class);
     expect($this->manager->quizSubmission())
-        ->toBe(\CanvasLMS\Api\QuizSubmissions\QuizSubmission::class);
+        ->toBe(QuizSubmission::class);
 
     // Submission APIs
     expect($this->manager->submissionComments())
-        ->toBe(\CanvasLMS\Api\SubmissionComments\SubmissionComment::class);
+        ->toBe(SubmissionComment::class);
     expect($this->manager->submissionComment())
-        ->toBe(\CanvasLMS\Api\SubmissionComments\SubmissionComment::class);
+        ->toBe(SubmissionComment::class);
 
     // Gradebook APIs
     expect($this->manager->gradebookHistory())
-        ->toBe(\CanvasLMS\Api\GradebookHistory\GradebookHistory::class);
+        ->toBe(GradebookHistory::class);
 
     // Group APIs
     expect($this->manager->groupCategories())
-        ->toBe(\CanvasLMS\Api\GroupCategories\GroupCategory::class);
+        ->toBe(GroupCategory::class);
     expect($this->manager->groupCategory())
-        ->toBe(\CanvasLMS\Api\GroupCategories\GroupCategory::class);
+        ->toBe(GroupCategory::class);
 
     // Outcome APIs
     expect($this->manager->outcomeGroups())
-        ->toBe(\CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class);
+        ->toBe(OutcomeGroup::class);
     expect($this->manager->outcomeGroup())
-        ->toBe(\CanvasLMS\Api\OutcomeGroups\OutcomeGroup::class);
+        ->toBe(OutcomeGroup::class);
     expect($this->manager->outcomeResults())
-        ->toBe(\CanvasLMS\Api\OutcomeResults\OutcomeResult::class);
+        ->toBe(OutcomeResult::class);
     expect($this->manager->outcomeResult())
-        ->toBe(\CanvasLMS\Api\OutcomeResults\OutcomeResult::class);
+        ->toBe(OutcomeResult::class);
     expect($this->manager->outcomeImports())
-        ->toBe(\CanvasLMS\Api\OutcomeImports\OutcomeImport::class);
+        ->toBe(OutcomeImport::class);
     expect($this->manager->outcomeImport())
-        ->toBe(\CanvasLMS\Api\OutcomeImports\OutcomeImport::class);
+        ->toBe(OutcomeImport::class);
 
     // Calendar APIs
     expect($this->manager->calendarEvents())
-        ->toBe(\CanvasLMS\Api\CalendarEvents\CalendarEvent::class);
+        ->toBe(CalendarEvent::class);
     expect($this->manager->calendarEvent())
-        ->toBe(\CanvasLMS\Api\CalendarEvents\CalendarEvent::class);
+        ->toBe(CalendarEvent::class);
     expect($this->manager->appointmentGroups())
-        ->toBe(\CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class);
+        ->toBe(AppointmentGroup::class);
     expect($this->manager->appointmentGroup())
-        ->toBe(\CanvasLMS\Api\AppointmentGroups\AppointmentGroup::class);
+        ->toBe(AppointmentGroup::class);
 
     // Feature APIs
     expect($this->manager->featureFlags())
-        ->toBe(\CanvasLMS\Api\FeatureFlags\FeatureFlag::class);
+        ->toBe(FeatureFlag::class);
     expect($this->manager->featureFlag())
-        ->toBe(\CanvasLMS\Api\FeatureFlags\FeatureFlag::class);
+        ->toBe(FeatureFlag::class);
 
     // External Tool APIs
     expect($this->manager->externalTools())
-        ->toBe(\CanvasLMS\Api\ExternalTools\ExternalTool::class);
+        ->toBe(ExternalTool::class);
     expect($this->manager->externalTool())
-        ->toBe(\CanvasLMS\Api\ExternalTools\ExternalTool::class);
+        ->toBe(ExternalTool::class);
 
     // Content Migration APIs
     expect($this->manager->contentMigrations())
-        ->toBe(\CanvasLMS\Api\ContentMigrations\ContentMigration::class);
+        ->toBe(ContentMigration::class);
     expect($this->manager->contentMigration())
-        ->toBe(\CanvasLMS\Api\ContentMigrations\ContentMigration::class);
+        ->toBe(ContentMigration::class);
 
     // New v1.5.0 APIs - Reports & Analytics
     expect($this->manager->courseReports())
-        ->toBe(\CanvasLMS\Api\CourseReports\CourseReports::class);
+        ->toBe(CourseReports::class);
     expect($this->manager->analytics())
-        ->toBe(\CanvasLMS\Api\Analytics\Analytics::class);
+        ->toBe(Analytics::class);
 
     // New v1.5.0 APIs - Authentication & User Management
     expect($this->manager->logins())
-        ->toBe(\CanvasLMS\Api\Logins\Login::class);
+        ->toBe(Login::class);
     expect($this->manager->login())
-        ->toBe(\CanvasLMS\Api\Logins\Login::class);
+        ->toBe(Login::class);
 
     // New v1.5.0 APIs - Bookmarks & Favorites
     expect($this->manager->bookmarks())
-        ->toBe(\CanvasLMS\Api\Bookmarks\Bookmark::class);
+        ->toBe(Bookmark::class);
     expect($this->manager->bookmark())
-        ->toBe(\CanvasLMS\Api\Bookmarks\Bookmark::class);
+        ->toBe(Bookmark::class);
 
     // New v1.5.0 APIs - Branding & Theming
     expect($this->manager->brandConfigs())
-        ->toBe(\CanvasLMS\Api\BrandConfigs\BrandConfig::class);
+        ->toBe(BrandConfig::class);
     expect($this->manager->brandConfig())
-        ->toBe(\CanvasLMS\Api\BrandConfigs\BrandConfig::class);
+        ->toBe(BrandConfig::class);
 
     // New v1.5.0 APIs - Developer Keys
     expect($this->manager->developerKeys())
-        ->toBe(\CanvasLMS\Api\DeveloperKeys\DeveloperKey::class);
+        ->toBe(DeveloperKey::class);
     expect($this->manager->developerKey())
-        ->toBe(\CanvasLMS\Api\DeveloperKeys\DeveloperKey::class);
+        ->toBe(DeveloperKey::class);
 });
 
 test('method resolution is case insensitive', function () {
@@ -306,13 +326,13 @@ test('method chaining works with camelCase methods', function () {
     // These would normally throw exceptions before the fix
     // We're testing that the class name is returned for static method chaining
     expect($this->manager->discussionTopics())
-        ->toBe(\CanvasLMS\Api\DiscussionTopics\DiscussionTopic::class);
+        ->toBe(DiscussionTopic::class);
 
     expect($this->manager->quizSubmissions())
-        ->toBe(\CanvasLMS\Api\QuizSubmissions\QuizSubmission::class);
+        ->toBe(QuizSubmission::class);
 
     expect($this->manager->calendarEvents())
-        ->toBe(\CanvasLMS\Api\CalendarEvents\CalendarEvent::class);
+        ->toBe(CalendarEvent::class);
 });
 
 test('singular camelCase methods with parameters resolve correctly', function () {

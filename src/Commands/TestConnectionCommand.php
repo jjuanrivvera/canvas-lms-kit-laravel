@@ -2,6 +2,9 @@
 
 namespace CanvasLMS\Laravel\Commands;
 
+use CanvasLMS\Api\Accounts\Account;
+use CanvasLMS\Api\Courses\Course;
+use CanvasLMS\Api\Enrollments\Enrollment;
 use CanvasLMS\Api\Users\User;
 use CanvasLMS\Config;
 use CanvasLMS\Laravel\CanvasManager;
@@ -155,13 +158,13 @@ class TestConnectionCommand extends Command
 
         $endpoints = [
             'Courses' => function () {
-                $courses = \CanvasLMS\Api\Courses\Course::get(['per_page' => 1]);
+                $courses = Course::get(['per_page' => 1]);
 
                 return count($courses) > 0 ? '✅ Accessible' : '⚠️ No courses found';
             },
             'Accounts' => function () {
                 try {
-                    $account = \CanvasLMS\Api\Accounts\Account::find(Config::getAccountId());
+                    $account = Account::find(Config::getAccountId());
 
                     return '✅ Accessible';
                 } catch (Exception $e) {
@@ -169,7 +172,7 @@ class TestConnectionCommand extends Command
                 }
             },
             'Enrollments' => function () {
-                $enrollments = \CanvasLMS\Api\Enrollments\Enrollment::get(['per_page' => 1]);
+                $enrollments = Enrollment::get(['per_page' => 1]);
 
                 return count($enrollments) > 0 ? '✅ Accessible' : '⚠️ No enrollments found';
             },

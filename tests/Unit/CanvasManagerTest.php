@@ -1,5 +1,8 @@
 <?php
 
+use CanvasLMS\Api\Courses\Course;
+use CanvasLMS\Api\Enrollments\Enrollment;
+use CanvasLMS\Api\Users\User;
 use CanvasLMS\Config;
 use CanvasLMS\Laravel\CanvasManager;
 
@@ -54,9 +57,9 @@ test('executes callback using specific connection', function () {
 });
 
 test('provides dynamic access to canvas api classes', function () {
-    expect($this->manager->courses())->toBe(\CanvasLMS\Api\Courses\Course::class);
-    expect($this->manager->users())->toBe(\CanvasLMS\Api\Users\User::class);
-    expect($this->manager->enrollments())->toBe(\CanvasLMS\Api\Enrollments\Enrollment::class);
+    expect($this->manager->courses())->toBe(Course::class);
+    expect($this->manager->users())->toBe(User::class);
+    expect($this->manager->enrollments())->toBe(Enrollment::class);
 });
 
 test('throws exception for invalid api method', function () {
@@ -80,10 +83,10 @@ test('api class map contains all expected canvas apis', function () {
     expect($classMap)->toHaveKey('account');
 
     // Test that values are valid class name strings
-    expect($classMap['courses'])->toBe(\CanvasLMS\Api\Courses\Course::class);
-    expect($classMap['course'])->toBe(\CanvasLMS\Api\Courses\Course::class);
-    expect($classMap['users'])->toBe(\CanvasLMS\Api\Users\User::class);
-    expect($classMap['user'])->toBe(\CanvasLMS\Api\Users\User::class);
+    expect($classMap['courses'])->toBe(Course::class);
+    expect($classMap['course'])->toBe(Course::class);
+    expect($classMap['users'])->toBe(User::class);
+    expect($classMap['user'])->toBe(User::class);
 
     // Test both camelCase and snake_case variants exist for key methods
     expect($classMap)->toHaveKey('discussionTopics');
@@ -102,9 +105,9 @@ test('api class map contains all expected canvas apis', function () {
 
     // Test that known existing classes are properly mapped
     $knownClasses = [
-        'courses'     => \CanvasLMS\Api\Courses\Course::class,
-        'users'       => \CanvasLMS\Api\Users\User::class,
-        'enrollments' => \CanvasLMS\Api\Enrollments\Enrollment::class,
+        'courses'     => Course::class,
+        'users'       => User::class,
+        'enrollments' => Enrollment::class,
     ];
 
     foreach ($knownClasses as $method => $expectedClass) {
